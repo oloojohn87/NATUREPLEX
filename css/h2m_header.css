@@ -1,0 +1,9 @@
+.addit_button {
+	background: transparent;
+	color: whitesmoke;
+	text-shadow: none;
+	border: 1px solid #E5E5E5;
+	font-size: 12px !important;
+	height: 20px;
+	line-height: 12px;
+}

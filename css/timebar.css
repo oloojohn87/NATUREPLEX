@@ -1,0 +1,48 @@
+.timeCellIndicator{
+    border-style: solid; 
+    border-width: 1px;
+    border-color: #BABABA;
+    height: 15px; 
+    width: 32px;
+}
+.timeCellIndicatorOff{
+    height: 15px; 
+    width: 8px;
+    float: left;
+}
+.timeCellIndicatorOn{
+    background-color: #3d94f6;
+    height: 15px;
+    width: 8px;
+    float: left;
+}
+
+.timeCellIndicatorTempOn{
+    background-color: #3d94f6;
+    height: 15px;
+    width: 8px;
+    float: left;
+}
+
+.timeCellIndicatorMarked{
+    background-color: #A5A5A5;
+    border-style: solid; 
+    border-width: 1px;
+    border-color: #B2B2B2;
+    border-right-color: #FFFFFF;
+    height: 15px;
+    margin-top: -1px;
+    width: 32px;
+}
+.timeLabel{
+    color: #CACACA; 
+    font-size: 10px; 
+    margin-left: -10px;
+    font-family: 'Arial', sans-serif;
+}
+.timeCell{
+    height: 40px; 
+    width: 32px; 
+    float: left;
+    margin-left: 1px;
+}

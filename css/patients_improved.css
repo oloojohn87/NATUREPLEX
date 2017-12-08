@@ -1,0 +1,282 @@
+#content{
+    background: #F9F9F9; 
+    padding-left:0px;
+}
+
+.main_grid{
+    width: 1000px; 
+    height: 850px;
+    margin: auto; 
+    margin-top: 25px;
+}
+
+.patients_table_wrapper{
+    width: 90%;
+    margin: auto;
+    height: 600px;
+}
+
+.language_button{
+    width: 160px;
+    height: 26px;
+    font-size: 12px;
+    background-color: #444;
+    border: 0px solid #000;
+    outline: none;
+    border-radius: 5px;
+    color: #F2F2F2;
+    margin-top: -2px;
+    margin-bottom: 2px;
+}
+
+.language_item:hover{
+    background-color: #EEE;
+    color: #555;
+    cursor: pointer;
+}
+
+#patients_table{
+    width: 100%;
+    margin: auto;
+    border-spacing: 0;
+    border-radius: 5px;
+}
+
+.patients_table_header{
+    background-color: #6A6A6A;
+    color: #FFF;
+    height: 30px;
+    width: 100%;
+    padding-bottom: 6px;
+}
+
+.patient_row{
+    width: 100%;
+    height: 26px;
+    text-align: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: #555;
+    cursor: default;
+}
+.patient_row:hover{
+    background-color: #6A6A6A;
+    color: #F2F2F2;
+    cursor: pointer;
+}
+.even{
+    background-color: #E2E2E2;
+}
+.odd{
+    background-color: #F2F2F2;
+}
+
+.search_bar{
+    width: 100%;
+    margin: auto;
+    height: 38px;
+    padding-top: 6px;
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #DDD;
+    margin-top: 15px;
+}
+.search_bar_button{
+    width: 75px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #F8F8F8;
+    border: 1px solid #CCC;
+    outline: none;
+    color: #777;
+    padding: 0px;
+    margin-top: -10px;
+}
+.clear_search_button{
+    height: 22px;
+    width: 22px;
+    border: 0px solid #000;
+    outline: none;
+    background-color: #FFF;
+    color: #DDD;
+    font-size: 16px;
+    margin-left: -108px;
+    margin-top: -12px;
+}
+.search_bar_button:hover{
+    background-color: #777;
+    border: 1px solid #777;
+    color: #F2F2F2;
+}
+
+.statistics_box{
+    padding: 1%; 
+    height:110px; 
+    width: 88%; 
+    margin: auto; 
+    margin-top: 40px;
+}
+
+.statistics_box_right_section{
+    width:440px; 
+    float:right; 
+    margin:0px; 
+    padding:0px;
+}
+
+.statistics_box_entry{
+    width:100px; 
+    border:1px solid rgba(194,194,194,1); 
+    float:left;  
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
+    margin-left:10px;
+}
+
+.statistics_box_number_container{
+    height:80px; 
+    width: 100%;  
+    text-align:center; 
+    margin:0px;
+}
+
+.statistics_box_number{
+    font-weight:bold; 
+    padding-top:27px;
+}
+
+.statistics_box_label_container{
+    width: 100%;  
+    text-align: center; 
+    margin: 0px; 
+    margin-left: -1px;  
+    -webkit-border-bottom-right-radius: 5px; 
+    -moz-border-bottom-right-radius: 5px; 
+    border-bottom-right-radius: 5px; 
+    -webkit-border-bottom-left-radius: 5px; 
+    -moz-border-bottom-left-radius: 5px; 
+    border-bottom-left-radius: 5px;
+}
+
+.statistics_box_label{
+    font-family: arial; 
+    font-size:18px; 
+    color:white; 
+    padding:5px; 
+    margin:0px;
+}
+.statistics_box_label2{
+    font-size: 50px; 
+    font-weight:bold; 
+    padding-top:20px;
+}
+.statistics_box_label3{
+    margin-top:8px;  
+    padding-top:0px; 
+    font-size: 16px; 
+    font-weight:bold; 
+    color: #73BB3B;
+}
+
+.loading_statistics{
+    width: 300px;
+    height: 50px;
+    margin: auto;
+    margin-top: 40px;
+    margin-right: 100px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    float: right;
+}
+
+.loading_indicator{
+    width: 42px;
+    height: 42px;
+    float: right;
+    margin-top: -10px;
+    color: #22AEFF;
+}
+
+.table_loading_indicator{
+    width: 42px;
+    height: 42px;
+    margin: auto;
+    margin-top: 250px;
+    color: #22AEFF;
+}
+
+.gauge_box{
+    width: 200px; 
+    height: 160px; 
+    float: left; 
+    margin-top: -35px;
+}
+.gauge_label{
+    width: 100%; 
+    height: 15px; 
+    margin-top: -35px; 
+    margin-bottom: 35px; 
+    color: #8A8A8A; 
+    font-size: 10px; 
+    text-align: center;
+}
+
+.gauge{
+    width: 200px; 
+    height: 160px; 
+    padding: 0px;
+}
+
+.xsmall{
+    font-size: 10px;
+}
+.small{
+    font-size: 30px;
+}
+.medium{
+    font-size: 50px;
+}
+.big{
+    font-size: 70px;
+}
+
+.pagination{
+    width: 290px;
+    height: 20px;
+    margin: auto;
+    text-align: center;
+}
+.pagination_button{
+    width: 40px;
+    height: 20px;
+    background-color: #22AEFF;
+    border: 0px solid #FFF;
+    outline: none;
+    color: #FFF;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 0px;
+    cursor: pointer;
+}
+.pagination_outer_button{
+    width: 58px;
+    height: 20px;
+    background-color: #22AEFF;
+    border: 0px solid #FFF;
+    outline: none;
+    color: #FFF;
+    border-radius: 20px;
+    padding: 0px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.pagination_button:disabled,.pagination_outer_button:disabled{
+    background-color: #8AD6FF;
+    cursor: default;
+}

@@ -1,0 +1,51 @@
+
+div.Male {
+	position:absolute; 
+	left:25px; 
+	top:25px; 
+	border:1px solid #d5d5d5; 
+	width:30px; 
+	height:30px; 
+	border-radius:15px; 
+	display:table !important; 
+	font-size: 25px;
+	text-align:center;
+}
+
+div.Male:hover {
+	background-color: #f0f0f0;
+}
+
+i.Male{
+	margin:0 auto; 
+	color:#b8b8b8; 
+	display: table-cell; 
+	vertical-align: middle;	
+}
+
+i.Female{
+	margin:0 auto; 
+	color:#b8b8b8; 
+	display: table-cell; 
+	vertical-align: middle;	
+}
+
+i.Alive{
+	color:#54bc00; 
+}
+
+
+/*
+
+div.Male:first-child {
+	color:green !important;
+	display:inline-block !important; 
+	vertical-align:middle !important;
+}
+
+
+div.InnerMale  {
+	color:green;
+	display:table-cell; 
+	vertical-align:middle;
+}

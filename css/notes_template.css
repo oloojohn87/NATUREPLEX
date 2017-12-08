@@ -1,0 +1,104 @@
+body {
+ font-family: Varela Round; 
+background: #FFFFFF;    
+}    
+header {
+    color: white;
+    display: inline-block;
+    width: 100%;
+    max-width: 1000;
+    background: #51a7f9;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 10px;
+    font-size: 40;
+    font-family: Varela Round;
+    margin-right: 10px;
+ 
+}
+
+.leaf-icon {
+    padding: 20px;
+    border: 0px;
+    display: inline-block;
+}  
+h2 {
+    
+    color: #70bf41; 
+    
+}    
+.date-time {
+    color: #a6aaa9;  
+    font-size: 15px;
+}
+h3 {
+    color: #51a7f9;
+  
+    vertical-align: text-top;
+}    
+.header-content{
+    display: inline-block;
+} 
+#patient-photo {
+    display: inline-block;  
+}    
+#patient-info {
+    display: inline-block;
+    line-height: 10px;
+    margin-left: 10px;
+    vertical-align: top;
+}
+#phone-icon {
+    align-items:center;
+    margin-bottom: 0px;
+    vertical-align: middle;
+}    
+content {
+    color: #a6aaa9;  
+    font-family: Varela Round; 
+    display:block;
+}    
+content h4 {
+    margin-left: 10px;
+    color: #51a7f9;
+
+}    
+#signature {
+    font-family: Tangerine; 
+    font-size: 30;
+    color: #51a7f9;
+    display: block;
+    padding: 10px;
+    //float: right;
+    margin-left: 400;
+    margin-right: 100;
+}    
+
+.session-id {
+    display: inline-block;
+    border: 0px;
+    font-size: 16px;
+}    
+  
+.notes-content {
+ 
+    display: inline-block;
+    width: 90%;
+    max-width: 1000;
+    padding: 10px;
+    border: 0px;
+}   
+footer {
+    font-size: 10px;
+    font-family: Arial;
+    color: grey;
+    display: block;
+    padding: 20px;
+}    
+@page {
+    counter-increment: page;
+    counter-reset: page 1;
+    @top-right {
+        content: "Page " counter(page) " of " counter(pages);
+    }
+}

@@ -1,0 +1,361 @@
+<html>
+    <head>
+        <title>Carousel Test</title>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src='../sweet-alert.min.js'></script>
+        <link rel='stylesheet' type='text/css' href='../../css/sweet-alert.css'>
+        <style>
+            .dropzone{
+                width: 200px; 
+                height: 200px;
+                padding: 50px;
+                margin: auto;
+                position: relative;
+                border: 2px dashed #AAA;
+                border-radius: 10px;
+            }
+            .thumbnail{
+                width: 80px;
+                height: 120px;
+                margin-left: -75px;
+                position: absolute;
+                float: left;
+                border-radius: 7px;
+                background-size: 80px 120px;
+                background-repeat: no-repeat;
+                border: 1px solid #999;
+                box-shadow: 0px 0px 8px #999;
+                background-color: #999;
+                position: relative;
+            }
+            .container{
+                height: 160px;
+                width: 125px;
+                margin-left: 15px;
+                float: left;
+            }
+            .arrow{
+                color: #FFF;
+                background-color: #94CFFD;
+                border: 0px solid #22AEFF;
+                outline: none;
+                font-size: 24px;
+                margin-top: 80px;
+                float: left;
+                width: 30px;
+                height: 30px;
+                border-radius: 30px;
+                font-family: Helvetica, sans-serif;
+                padding: 0px;
+                cursor: pointer;
+            }
+            .arrow:hover{
+                background-color: #22AEFF;
+            }
+            #overlay {
+                position: fixed; 
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #000;
+                opacity: 0.5;
+                filter: alpha(opacity=50);
+            }
+            #modal {
+                position:absolute;
+                background:url(../../images/tint20.png) 0 0 repeat;
+                background:rgba(0,0,0,0.2);
+                border-radius:14px;
+                padding:8px;
+                z-index: 50;
+            }
+
+            #content {
+                border-radius:8px;
+                background:#fff;
+                padding:20px;
+                display: inline-block;
+            }
+            #close {
+                position:absolute;
+                background:url(../../images/close.png) 0 0 no-repeat;
+                width:24px;
+                height:27px;
+                display:block;
+                text-indent:-9999px;
+                top:-3px;
+                right:-3px;
+            }
+            #save_report {
+                float: right;
+            }
+            #left-arrow {
+                background:url(../../images/ui-pagination-arrow-left@2x.png) 0 0 no-repeat;
+                float: left;
+                cursor: pointer;
+                width: 55px;
+                height: 120px;
+            }
+            #right-arrow {
+                background:url(../../images/ui-pagination-arrow-right@2x.png) 0 0 no-repeat;
+                float: left;
+                cursor: pointer;
+                width: 55px;
+                height: 120px;
+            }
+            #delete_report {
+                margin-left: 10px;
+                float: right;
+                cursor: pointer;
+            }
+            #page_indicator {
+                display: inline;
+                margin-left: 270px;
+                width: 70px;
+            }
+            #header {
+                text-align: center;
+            }
+        </style>
+        
+        <script>
+            var MAX_THUMBNAILS = 5;
+            function onDragStart(ev)
+            {
+                ev.dataTransfer.setData("item_id", ev.target.id);
+            }
+            function onDrop(ev) 
+            {
+                ev.preventDefault();
+                
+                var target = null;
+                
+                if(hasClass(ev.target, 'dropzone'))
+                {
+                    for(var i = 0; i < ev.target.childNodes.length; i++)
+                    {
+                        if(ev.target.childNodes[i].className == 'container')
+                        {
+                            target = ev.target.childNodes[i];
+                            
+                            break;
+                        }
+                    }
+                    
+                }
+                else if(hasClass(ev.target, 'container'))
+                {
+                    target = ev.target;
+                }
+                else if(hasClass(ev.target, 'arrow'))
+                {
+                    for(var i = 0; i < ev.target.parentNode.childNodes.length; i++)
+                    {
+                        if(ev.target.parentNode.childNodes[i].className == 'container')
+                        {
+                            target = ev.target.parentNode.childNodes[i];
+                            break;
+                        }
+                    }
+                }
+                else if(hasClass(ev.target, 'thumbnail'))
+                {
+                    target = ev.target.parentNode;
+                }
+                else
+                {
+                    return;
+                }
+                
+                var data = ev.dataTransfer.getData("item_id");
+                var parent = document.getElementById(data).parentNode;
+                target.appendChild(document.getElementById(data));
+                var current = 5;
+                var z = 1;
+                var count = 0;
+                for(var i = 0; i < target.childNodes.length; i++)
+                {
+                    if(hasClass(target.childNodes[i], 'thumbnail'))
+                    {
+                        target.childNodes[i].style.marginTop = current.toString() + 'px';
+                        target.childNodes[i].style.zIndex = z.toString();
+
+                        if(count == 0)
+                            target.childNodes[i].style.marginLeft = (0).toString() + 'px';
+                        else
+                            target.childNodes[i].style.marginLeft = (-75).toString() + 'px';
+
+                        z++;
+                        current += 5;
+                        count++;
+                    }
+                }
+
+                current = 5;
+                count = 0;
+                for(var i = 0; i < parent.childNodes.length; i++)
+                {
+                    if(hasClass(parent.childNodes[i], 'thumbnail'))
+                    {
+                        parent.childNodes[i].style.marginTop = current.toString() + 'px';
+
+                        if(count == 0)
+                            parent.childNodes[i].style.marginLeft = (0).toString() + 'px';
+                        else
+                            parent.childNodes[i].style.marginLeft = (-75).toString() + 'px';
+
+                        current += 5;
+                        count++;
+                    }
+                }
+                
+            }
+            function allowDrop(ev)
+            {
+                ev.preventDefault();
+            }
+                
+            function hasClass(element, cls)
+            {
+                return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+            }
+            
+        </script>
+    </head>
+    <body>
+        <div style="width: 800px; margin: auto; height: 300px; margin-top: 200px;" ondrop="onDrop(event)" ondragover="allowDrop(event)">
+            
+            <div id="dropzone1" class="dropzone" data-pos="0" data-hover="1" style="float: left;">
+                <button class="arrow"><</button>
+                <button class="arrow" style="float: right;">></button>
+                <div class="container">
+                    <div id="244" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" style="background-image: url(thumbnail1.png); margin-top: 5px; z-index: 5; margin-left: 0px;"></div>
+                    <div id="834" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" style="background-image: url(thumbnail2.png); margin-top: 10px; z-index: 4;" ></div>
+                    <div id="623" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" style="background-image: url(thumbnail1.png); margin-top: 15px; z-index: 3;"></div>
+                    <div id="844" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" style="background-image: url(thumbnail2.png); margin-top: 20px; z-index: 2;"></div>
+                    <div id="621" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" style="background-image: url(thumbnail1.png); margin-top: 25px; z-index: 1;"></div>
+                </div>
+                
+            </div>
+            
+            <div id="dropzone2" class="dropzone" data-pos="0" data-hover="1" style="float: right;" ondrop="onDrop(event)" ondragover="allowDrop(event)">
+                <button class="arrow"><</button>
+                <button class="arrow" style="float: right;">></button>
+                <div class="container">
+                    <div id="888" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" data- style="background-image: url(thumbnail2.png); margin-top: 5px; z-index: 2; margin-left: 0px;"></div>
+                    <div id="952" class="thumbnail" draggable="true" ondragstart="onDragStart(event)" style="background-image: url(thumbnail1.png); margin-top: 10px; z-index: 1;" ></div>
+                </div>
+            </div>
+                
+        </div>
+        <script>
+            $(document).ready(function()
+            {
+                $(".thumbnail").mouseenter(function(e)
+                {
+                    if($(this).parent().parent().data('hover') == 1)
+                    {
+                        var parent = $(this).parent();
+                        var pos = parent.children(".thumbnail").index(this);
+                        var count = parent.children().length;
+
+                        $(this).parent().parent().data('pos', pos);
+                        $(this).css('z-index', count.toString());
+
+                        var current = count - 1;
+
+                        $(this).css('-webkit-transform', 'initial');
+
+                        for(var i = pos - 1; i >= 0; i--)
+                        {
+                            var deg = Math.floor((Math.random() * 9) - 4);
+                            parent.children('.thumbnail').eq(i).css('z-index', current.toString());
+                            parent.children('.thumbnail').eq(i).css('-webkit-transform', 'rotate(' + deg.toString()+ 'deg)');
+                            current--;
+                        }
+                        current = count - 1;
+                        for(var i = pos + 1; i < count; i++)
+                        {
+                            var deg = Math.floor((Math.random() * 9) - 4);
+                            parent.children('.thumbnail').eq(i).css('z-index', current.toString());
+                            parent.children('.thumbnail').eq(i).css('-webkit-transform', 'rotate(' + deg.toString()+ 'deg)');
+                            current--;
+                        }
+                    }
+                    
+                    
+                });
+                
+                $(document).on('click', ".arrow, #left-arrow, #right-arrow", function(e)
+                {
+                    var parent = $(this).parent().children('.container').eq(0);
+                    var pos = 0;
+                    var container = parent;
+                    var shuffle = true;
+                    if($(this).text() == '<' || $(this).attr('id') == 'left-arrow')
+                    {
+                        pos = $(this).parent().data('pos') - 1;
+                        if(pos < 0)
+                        {
+                            pos = 0;
+                            shuffle = false;
+                        }
+                    }
+                    else
+                    {
+                        pos = $(this).parent().data('pos') + 1;
+                        if(pos > container.children().length - 1)
+                        {
+                            pos = container.children().length - 1;
+                            shuffle = false;
+                        }
+                    }
+                    var count = parent.children().length < MAX_THUMBNAILS ? parent.children().length : MAX_THUMBNAILS;
+                    
+                    //update the page_indicator
+                    $('#page_indicator').text((pos+1) + ' / ' + count);
+                    
+                    var begin = 0;
+                    var end = parent.children().length;
+                    
+                    $(this).parent().data('pos', pos);
+                    
+                    parent.children('.thumbnail').eq(pos).css('z-index', count.toString());
+                    parent.children('.thumbnail').eq(pos).css('-webkit-transform', 'initial');
+                    
+                    var current = count - 1;
+                    
+                    for(var i = pos - 1; i >= begin; i--)
+                    {
+                        var deg = Math.floor((Math.random() * 9) - 4);
+                        parent.children('.thumbnail').eq(i).css('z-index', current.toString());
+                        if(shuffle)
+                        {
+                            parent.children('.thumbnail').eq(i).css('-webkit-transform', 'rotate(' + deg.toString()+ 'deg)');
+                        }
+                        current--;
+                    }
+                    current = count - 1;
+                    for(var i = pos + 1; i < end; i++)
+                    {
+                        var deg = Math.floor((Math.random() * 9) - 4);
+                        parent.children('.thumbnail').eq(i).css('z-index', current.toString());
+                        if(shuffle)
+                        {
+                            parent.children('.thumbnail').eq(i).css('-webkit-transform', 'rotate(' + deg.toString()+ 'deg)');
+                        }
+                        current--;
+                    }
+                    
+                    
+                });
+                
+                
+            });
+        </script>
+        <script src="edit_report.js"></script>
+    </body>
+
+</html>

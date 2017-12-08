@@ -1,0 +1,1178 @@
+
+<!DOCTYPE html>
+		<html lang='en'><head>
+		<meta charset='utf-8'>
+		<title>NaturePlex Inventory Management System</title>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<meta name='description' content=''>
+		<meta name='author' content=''>
+		<script src='js/jquery.min.js'></script>
+		<script src='js/jquery-ui.min.js'></script>
+        <script src='js/sweet-alert.min.js'></script><link href='css/style.css' rel='stylesheet'><link href='css/bootstrap.css' rel='stylesheet'>  
+		<link rel='stylesheet' href='css/icon/font-awesome.css'>
+		<link rel='stylesheet' href='css/bootstrap-responsive.css'>
+		<link rel='shortcut icon' href='images/icon-logo.jpeg'>
+        <link rel='stylesheet' type='text/css' href='css/sweet-alert.css'><input type='hidden' id='stripe-id-holder' value='' />
+        <input type='hidden' id='address-holder' value='' />
+        <input type='hidden' id='domain' value='health2.me' />
+        <input type='hidden' id='probe_id_holder_for_purchase' value='' />
+		<script type='text/javascript'>
+		
+        
+
+
+
+		function delete_cookie( name ) {
+		  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		}
+
+
+		//var langType = $.cookie('lang');
+        var idleTime = 0;
+        
+        function timerIncrement() {
+            idleTime += 1;
+            if (idleTime > 9) { // 10 minutes
+                swal('Session Timeout', 'Session expired', 'error');
+                setTimeout(function() { window.location.href = 'timeout.php'; }, 5000);
+            }
+            else if (idleTime == 9) { // 9 minutes
+                swal({
+                    title: 'Session Timeout',
+                    text: 'Your session will be expired in 1 minute. Do you want to continue?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Continue',  
+                    cancelButtonText: 'No, Log Out',   
+                    closeOnConfirm: true,   
+                    closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if(isConfirm) idleTime = 0;
+                        else {
+                            swal('Session Timeout', 'Your session has been expired!', 'error');
+                            setTimeout(function() { window.location.href = 'timeout.php'; }, 5000);
+                        }
+                    });
+            }
+        }
+        
+        var initial_language = 'en';
+        var last_language = 'en';
+        function setCookie(name, value, days)
+        {
+            delete_cookie('lang');
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime()+(days*24*60*60*1000));
+                    var expires = '; expires='+date.toGMTString();
+                }
+                else var expires = '';
+                document.cookie = name+'='+value+expires+'; path=/';	
+                $.when( swal({
+                    title: 'The Language Setting Has Been Changed',
+                    type: 'success',
+                    timer: 2000
+                }) ).then(function() {
+                    setTimeout(function() 
+                    {
+                        $.post('set_language.php', {lang: value, user: '2949', type: 1}, function(data, status)
+                        {
+                            //console.log('lang_user: 2949');
+                            location.reload();
+                        });
+                    }, 2000);
+                });
+        
+        }
+        $(document).ready(function() {
+            /*if(langType == 'th'){
+                window.lang.change('th');
+            }
+            if(langType == 'en'){
+                window.lang.change('en');
+            }
+            if(langType == 'hi'){
+                window.lang.change('hi');
+            }
+            if(langType == 'tu'){
+                window.lang.change('tu');
+            }*/
+            
+            console.log('INITIAL LANGUAGE: ' + initial_language);
+            var langtype = 'en';
+            if(initial_language != 'en')
+            {
+                langtype = initial_language;
+                $.get('jquery-lang-js-master/js/langpack/'+initial_language+'.json', function(data, status)
+                {
+                    var json = data;
+                    $('*[lang^="en"]').each(function()
+                    {
+                        $(this).attr('original_eng_text', $(this).text());
+                        if(json.token.hasOwnProperty($(this).text()))
+                        {
+                            $(this).text(json.token[$(this).text()]);
+                        }
+                        else if(json.token.hasOwnProperty($(this).html()))
+                        {
+                            $(this).html(json.token[$(this).html()]);
+                        }
+                        else if ($(this).prop('tagName') == 'INPUT' && $(this).prop('type') == 'submit' || $(this).prop('type') == 'button' && json.token.hasOwnProperty($(this).val()))
+                        {
+                            $(this).val(json.token[$(this).val()]);
+                        }
+                        else if ($(this).prop('tagName') == 'INPUT' && $(this).prop('type') == 'text' && json.token.hasOwnProperty($(this).attr('placeholder')))
+                        {
+                            $(this).attr('placeholder', (json.token[$(this).attr('placeholder')]));
+                        }
+                        else if ($(this).prop('tagName') == 'BUTTON' && json.token.hasOwnProperty($(this).html()))
+                        {
+                            $(this).html(json.token[$(this).html()]);
+                        }
+                        else if(json.token.hasOwnProperty($(this).prop('title')))
+                        {
+                            $(this).prop('title', json.token[$(this).prop('title')]);
+                        }
+                    });
+                });
+                console.log('selected language: '+initial_language+'.json');
+            }
+            
+            
+            
+            //Increment the idle time counter every minute.
+            //var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+
+            //Zero the idle timer on every possible movement.
+            $('body').bind('mousemove', function() {
+                idleTime = 0;
+            });
+        });
+		</script><input type='hidden' id='doc-tracking-price' value='0' />
+			<input type='hidden' id='doc-consult-price' value='0' />
+	<link href='css/bootstrap-dropdowns.css' rel='stylesheet'>
+    <link rel='stylesheet' href='css/jquery-ui-1.8.16.custom.css' media='screen'  />
+    <link rel='stylesheet' href='css/fullcalendar.css' media='screen'  />
+    <link rel='stylesheet' href='css/chosen.css' media='screen'  />
+    <link rel='stylesheet' href='css/datepicker.css' >
+    <link rel='stylesheet' type='text/css' href='css/jquery.timepicker.css' />
+    <link rel='stylesheet' href='css/colorpicker.css'>
+    <link rel='stylesheet' href='css/glisse.css?1.css'>
+    <link rel='stylesheet' href='css/jquery.jgrowl.css'>
+    <link rel='stylesheet' href='js/elfinder/css/elfinder.css' media='screen' />
+    <link rel='stylesheet' href='css/jquery.tagsinput.css' />
+    <link rel='stylesheet' href='css/demo_table.css' >
+    <link rel='stylesheet' href='css/jquery.jscrollpane.css' >
+    <link rel='stylesheet' href='css/validationEngine.jquery.css'>
+    <link rel='stylesheet' href='css/jquery.stepy.css' />
+   	<link rel='stylesheet' href='font-awesome/css/font-awesome.min.css'>
+	<link rel='stylesheet' href='css/H2MIcons.css' />
+	<link rel='stylesheet' href='css/toggle-switch.css'>
+	<link rel='stylesheet' href='css/csslider.css'>
+    <link rel='shortcut icon' href='images/icons/favicon.ico'>
+    <link rel='stylesheet' type='text/css' href='css/tooltipster.css' />    <!-- Create language switcher instance and set default language to en-->
+    <script src="jquery-lang-js-master/js/jquery-cookie.js" charset="utf-8" type="text/javascript"></script>
+    <script src="jquery-lang-js-master/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-37863944-1']);
+        _gaq.push(['_setDomainName', 'health2.me']);
+        _gaq.push(['_trackPageview']);
+        
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);   
+        })();
+
+    </script>
+
+    
+    <!--Adobe Edge Runtime-->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script type="text/javascript" charset="utf-8" src="TutorialBox/AnimationA2_edgePreload.js"></script>
+    <style>
+        .edgeLoad-EDGE-43 { visibility:hidden; }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="TutorialBox/AnimationA3_edgePreload.js"></script>
+    <style>
+        .edgeLoad-EDGE-44 { visibility:hidden; }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="TutorialBox/AnimationA4_edgePreload.js"></script>
+    <style>
+        .edgeLoad-EDGE-45 { visibility:hidden; }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="TutorialBox/AnimationA5_edgePreload.js"></script>
+    <style>
+        .edgeLoad-EDGE-46 { visibility:hidden; }
+    </style>
+    
+
+    <style>
+        .edgeLoad-EDGE-47 { visibility:hidden; }
+    </style>
+<!--Adobe Edge Runtime End-->
+
+</head>
+<body>
+    <style>
+        html, body { height: 100%; }
+        body .modal {
+          width: 70%;
+          left: 15%;
+          margin-left:auto;
+          margin-right:auto; 
+        }
+        .modal-body {
+            height:1000px;
+        }
+        .InfoRow{
+            border:solid 1px #cacaca; 
+            height:20px; 
+            padding:5px;
+            margin-left:5px;
+            margin-right:5px;
+            margin-top:-1px;	
+        }
+        .PatName{
+            margin-left:10px;
+            font-size:14px;
+            color:#54bc00;	
+        }
+        body .ui-autocomplete {
+          background-color:white;
+          color:#22aeff;
+          /* font-family to all */
+        }
+    </style>
+    
+    
+
+	<!-- HEADER VIEW FOR MAIN TOOLBAR -->
+	<div class="header" >
+     	<input type="hidden" id="USERDID" Value="">	
+    	<input type="hidden" id="MEDID" Value="2949">	
+    	<input type="hidden" id="GROUPID" Value="">	
+    	<input type="hidden" id="IdMEDEmail" Value="oloojohn87@gmail.com">	
+    	<input type="hidden" id="IdMEDName" Value="JOHN">	
+    	<input type="hidden" id="IdMEDSurname" Value="OLOO">	
+    	<input type="hidden" id="IdMEDLogo" Value="">	
+  		<input type="hidden" id="TELEMED_TYPE" Value="1">
+        <input type="hidden" id="IN_CONSULTATION" Value="0">
+		<input type="hidden" id="CONSULTATION_DATE" value="January 1, 1970 12:00 AM UTC">
+        
+        <a href="MainDashboard.html" class="logo" width:"200px"><h1>NaturePlex</h1></a>
+         		
+		 <!-- Below is earlier code for language -->
+      <!--  Start of comment <div style="float:left;">
+		   <a href="#en" onclick="setCookie('lang', 'en', 30); return false;"><img src="images/icons/english.png"></a>
+		   </br>
+			<a href="#sp" onclick="setCookie('lang', 'th', 30); return false;"><img src="images/icons/spain.png"></a>
+			</div> End of comment -->
+        
+             <!-- Start of new code by Pallab -->
+             <!-- Beautification of button (changes to standar classes to be added to this instance of dropdown -->
+               <style>
+                .addit_button{
+                    background: transparent;
+                    color: whitesmoke;
+                    text-shadow: none;
+                    border: 1px solid #E5E5E5;
+                    font-size: 12px !important;
+                    height: 20px;
+                    line-height: 12px;      
+                }
+                .addit_caret{
+                   border-top: 4px solid whitesmoke;
+                   margin-top: 3px !important;
+                   margin-left: 5px !important;
+                }                   
+
+               </style>
+               <div style="margin-top:11px;float:left; margin-left:50px;" class="btn-group">
+                      <button id="lang1" type="button" class="btn btn-default dropdown-toggle addit_button" data-toggle="dropdown">
+                        Language <span class="caret addit_caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#en" onclick="setCookie('lang', 'en', 30); return false;">English</a></li>
+                        <li><a href="#sp" onclick="setCookie('lang', 'th', 30); return false;">Espa&ntilde;ol</a></li>
+                        
+                      </ul>
+                </div>
+               <!-- End of new code by Pallab-->
+             <script>
+                var langType = initial_language;
+                var language = '';
+                 
+                if(langType == 'th')
+                {
+                    language = 'th';
+                    $("#lang1").html("Espa&ntilde;ol <span class=\"caret addit_caret\"></span>");
+                }
+                else if(langType == 'tu')
+                {
+                    language = 'tu';
+                    $("#lang1").html("T&uuml;rk&ccedil;e <span class=\"caret addit_caret\"></span>");
+                }
+                else if(langType == 'hi')
+                {
+                    language = 'hi';
+                    $("#lang1").html("हिंदी <span class=\"caret addit_caret\"></span>");
+                }
+                else{
+                    language = 'en';
+                    $("#lang1").html("English <span class=\"caret addit_caret\"></span>");
+                }
+                
+                
+                </script>
+              
+    
+           
+        <div class="pull-right">
+    
+            <div class="notifications-head">
+
+              <img src="images/message-icon.jpg" width="30px" alt="message-icon">
+            <!-- ADMIN DOCTORS -->
+           
+            <div class="btn-group pull-left hide-mobile">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="doctor_messages_button">
+                    <span class="notification" style="display: none;">77</span>
+                    <span class="triangle-1" style="display: none;"></span>
+                    <i class="icon-user-md" style="-webkit-filter: hue-rotate(340deg) saturate(8.9);" ></i>
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" style="background-color:transparent; border:none; -webkit-box-shadow:none; box-shadow:none;">
+                
+                    <span class="triangle-2"></span>
+                    <div class="ichat" id="doctor_messages">
+                        <div class="ichat-messages">
+                            <div class="ichat-title">
+                                <div class="pull-left" lang="en">Unread Admin Messages</div>
+                                <div class="clear"></div>
+                            </div>
+                            
+                            <div style="text-align: center; align: center" id="doctor_messages_indicator">
+                                <i class="icon-spinner icon-spin " style="margin-top: 20px; margin-bottom: 20px; margin-right: auto; margin-left: auto; color:#22aeff;"></i>
+                            </div>
+                            
+                            <div class="imessage" id="doctor_mes_1" style="display: none;">
+                                <div class="iavatar"></div>
+                                <div class="imes">
+                                    <div class="iauthor"></div>
+                                    <div class="itext" style="width: 140px; white-space: normal;"></div>
+                                </div>
+                                <div class="idelete"><a id="doctor_mes_link_1" href="#"><span><i class="icon-arrow-right"></i></span></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="imessage" id="doctor_mes_2" style="display: none;">
+                                <div class="iavatar"></div>
+                                <div class="imes">
+                                    <div class="iauthor"></div>
+                                    <div class="itext" style="width: 140px; white-space: normal;"></div>
+                                </div>
+                                <div class="idelete"><a id="doctor_mes_link_2" href="#"><span><i class="icon-arrow-right"></i></span></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="imessage" id="doctor_mes_3" style="display: none;">
+                                <div class="iavatar"></div>
+                                <div class="imes">
+                                    <div class="iauthor"></div>
+                                    <div class="itext" style="width: 140px; white-space: normal;"></div>
+                                </div>
+                                <div class="idelete"><a id="doctor_mes_link_3" href="#"><span><i class="icon-arrow-right"></i></span></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="imessage" id="doctor_mes_4" style="display: none;">
+                                <div class="iavatar"></div>
+                                <div class="imes">
+                                    <div class="iauthor"></div>
+                                    <div class="itext" style="width: 140px; white-space: normal;"></div>
+                                </div>
+                                <div class="idelete"><a id="doctor_mes_link_4" href="#"><span><i class="icon-arrow-right"></i></span></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="imessage" id="doctor_mes_5" style="display: none;">
+                                <div class="iavatar"></div>
+                                <div class="imes">
+                                    <div class="iauthor"></div>
+                                    <div class="itext" style="width: 140px; white-space: normal;"></div>
+                                </div>
+                                <div class="idelete"><a id="doctor_mes_link_5" href="#"><span><i class="icon-arrow-right"></i></span></a></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="ichat-link" style="text-align: center;">
+                                <p id="doctor_more_messages" lang="en">0 More Messages</p> 
+                                <div class="clear"></div>
+                            </div>
+                        
+                        </div>
+                        <a href="Messages.php?isDoctors=1" class="iview" style="width: 100%" lang="en">View all</a>
+                   
+                    </div>
+                
+                </div>
+            </div>
+            <!-- END MESSAGES DOCTORS -->
+            </div>
+<script type="text/javascript">
+$("#doctor_mes_link_1").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=1&id=" + $("#doctor_mes_link_1").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#doctor_mes_link_2").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=1&id=" + $("#doctor_mes_link_2").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#doctor_mes_link_3").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=1&id=" + $("#doctor_mes_link_3").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#doctor_mes_link_4").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=1&id=" + $("#doctor_mes_link_4").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#doctor_mes_link_5").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=1&id=" + $("#doctor_mes_link_5").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#patient_mes_link_1").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=0&id=" + $("#patient_mes_link_1").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#patient_mes_link_2").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=0&id=" + $("#patient_mes_link_2").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#patient_mes_link_3").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=0&id=" + $("#patient_mes_link_3").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#patient_mes_link_4").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=0&id=" + $("#patient_mes_link_4").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+    $("#patient_mes_link_5").click(function(event)
+    {
+        window.open("Messages.php?isDoctors=0&id=" + $("#patient_mes_link_5").attr("name"),'_self',false);
+        event.preventDefault();
+    });
+function GetTimeLine(unread,scenario)
+    {
+        $("#WaitTW").css('visibility','visible');
+        var queMED = $("#MEDID").val();
+        var queUrl ='getInboxMessageLight.php?IdMED='+queMED+'&scenario='+scenario;
+        var type = "doctor";
+        if (scenario == "patient")
+        {
+            type = "patient";
+        }
+        $("#"+type+"_messages_indicator").css("display", "block");
+        $("#"+type+"_mes_1").css("display", "none");
+        $("#"+type+"_mes_2").css("display", "none");
+        $("#"+type+"_mes_3").css("display", "none");
+        $("#"+type+"_mes_4").css("display", "none");
+        $("#"+type+"_mes_5").css("display", "none");
+        $(type+"_messages_button").children("span.notification").css("display", "none");
+        $(type+"_messages_button").children("span.triangle-1").css("display", "none");
+        $.post("getInboxMessageLight.php", {IdMED: queMED, scenario: scenario}, function(data, status)
+        {
+            var items = JSON.parse(data);
+            var num_items = items.length;
+            
+            // set indicator
+            if (num_items > 0)
+            {
+                $("#"+type+"_messages_button").children("span.notification").css("display", "block");
+                $("#"+type+"_messages_button").children("span.triangle-1").css("display", "block");
+                $("#"+type+"_messages_button").children("span.notification").text(items[0].NUM);
+                var more = items[0].NUM - 5;
+                if (more < 0)
+                {
+                    more = 0;
+                }
+                $("#"+type+"_more_messages").text(more + " more messages ...");
+            }
+            else
+            {
+                $("#"+type+"_more_messages").text("0 more messages ...");
+            }
+            
+            for(var k = 1; k <= 5; k++)
+            {
+                if (k <= num_items)
+                {
+                    $("#"+type+"_mes_"+k).css("display", "block");
+                }
+                else
+                {
+                    $("#"+type+"_mes_"+k).css("display", "none");
+                }
+            }
+            for(var i = 0; i < num_items && i < 5; i++)
+            {
+                if(items[i])
+                {
+
+
+					if(items[i].MSG_TYPE == 'sendmessage'){
+						$("#"+type+"_mes_"+(i+1)).css('background-color','#22aeff');
+					}else if(items[i].MSG_TYPE == 'patientdetailmed'){
+						$("#"+type+"_mes_"+(i+1)).css('background-color','#54bc00');
+					}
+
+
+                    var isDoctor = 0;
+                    if(type === 'doctor')
+                    {
+                        isDoctor = 1;
+                    }
+                    $("#"+type+"_mes_"+(i+1)).children("div.imes").children("div.iauthor").text(items[i].NAME_sender);
+                    $("#"+type+"_mes_link_"+(i+1)).attr("name", items[i].ID);
+                    var text = items[i].CONTENT;
+                    if (text.length > 110);
+                    {
+                        text = text.substr(0, 106) + " ...";
+                    }
+                    $("#"+type+"_mes_"+(i+1)).children("div.imes").children("div.itext").text(text);
+                    if (items[i].PIC.indexOf('<div') == -1)
+                    {
+                        $("#"+type+"_mes_"+(i+1)).children("div.iavatar").html('<img src="'+items[i].PIC+'" alt="">');
+                    }
+                    else
+                    {
+                        $("#"+type+"_mes_"+(i+1)).children("div.iavatar").html(items[i].PIC);
+                    }
+                }
+                
+            }
+            $("#"+type+"_messages_indicator").css("display", "none");
+            //load_next();
+        });
+    
+        
+    };  
+    
+     function GetTimeLineBOX(unread)
+    {
+        $("#WaitTW").css('visibility','visible');
+        var queMED = $("#MEDID").val();
+        var queUrl ='getInboxMessageUNREAD.php?IdMED='+queMED+'&patient=-1'+'&unread='+unread;		
+        
+        //alert (queUrl);
+        
+        $.ajax(
+        {
+            url: queUrl,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                //alert('Data Fetched');
+                NewMES = data.items;
+                //NewMESArray = data.items;
+            }
+        });
+    
+        Pa = NewMES.length;
+        TotalMes = Pa;
+        $('#RCounter').html('1 of '+Pa);
+        //alert (Pa);
+        $('#NewMES').css('width',Pa*470);
+        var n=0;
+        MesTimeline = '';
+        while (n < Pa)
+        {
+            var queini = NewMES[n].MessageINIT.charCodeAt(0); 
+            var whatcolor = 'RGB()';
+            switch (true)
+            {
+                case (queini == 0):
+                    result = "Equals Zero.";
+                    break;
+                case ((queini >= 64) && (queini <= 78)):		
+                    whatcolor = '#0066CC';
+                    break;
+                case ((queini >= 79) && (queini <= 100)):		
+                    whatcolor = '#00CC66';
+                    break;
+                case ((queini >= 101) ):		
+                    whatcolor = '#663300';
+                    break;
+            }
+            var formatDateP = new Date(NewMES[n].MessageDATE);
+            var m_names = new Array("January", "February", "March","April", "May", "June", "July", "August", "September","October", "November", "December");
+            var formatDate = m_names[formatDateP.getMonth()] + ' ' + formatDateP.getDay() + ', '+ formatDateP.getFullYear();
+            MesTimeline = MesTimeline + '<div style="float:left; width:465px; margin-top:5px;">'; 
+                MesTimeline = MesTimeline + '<div style="float:left; width:45px; margin-left:10px;">'; 
+                    if (n==2) 
+                        {
+                        MesTimeline = MesTimeline + '<img src="images/PersonalPicSample.jpeg" style="margin-left:0px; width: 40px; height: 40px; border:#cacaca; margin-top:13px;" class="img-circle">';
+                        }
+                    else
+                    {
+                        MesTimeline = MesTimeline + '<div class="LetterCircleON" style="width:40px; height:40px; font-size:12px; margin-left:0px; background-color:' + whatcolor + ';"><p style="margin:0px; padding:0px; margin-top:13px;">'+ NewMES[n].MessageINIT +'</p></div>	';
+                    }	
+                MesTimeline = MesTimeline + '</div>'; 
+    
+                MesTimeline = MesTimeline + '<div style="float:left; width:380px; margin-left:10px; <!--border-bottom:thin dotted #cacaca;-->">'; 
+                    MesTimeline = MesTimeline + '<p style="font-weight:bold; font-size:14px; ">' +  NewMES[n].MessageSEND + '<span style="color:#cacaca; float:right; font-size:12px; font-weight:normal;">    ' + formatDate + '</span> ' + '</p>' ;
+                    MesTimeline = MesTimeline +  '<p style="color:grey; font-weight:bold; font-size:12px; margin-bottom:0px; margin-top:-10px;">' + NewMES[n].MessageSUBJ + '</p>';
+                    MesTimeline = MesTimeline +  '<p style="color:grey; margin-bottom:0px; line-height:100%; ">' + NewMES[n].MessageCONT.replace(/sp0e/gi," ") + '</p>';
+                    
+                    var splitted = NewMES[n].MessageRIDS.split(" ");
+                    NumReports = splitted.length - 1;
+                    if (NumReports>0)
+                    {
+                        MesTimeline = MesTimeline + '<div style="margin:0 auto; margin-top:10px; width:95%; border:solid #cacaca; border-radius:5px; height:80px;">'; 
+                            //MesTimeline = MesTimeline + NumReports + ' Reports.  ';
+                            var rn = 0;
+                            while (rn < NumReports)
+                            {
+                                var cadena = 'DecryptFileId.php?reportid='+splitted[rn]+'&queMed='+queMED;
+                                var RecTipo = LanzaAjax (cadena);
+                                var thumbnail = RecTipo.substr(0,RecTipo.indexOf("."))+'.png';
+                                MesTimeline = MesTimeline + '<img class="ThumbTimeline" id="'+splitted[rn]+'" style="height:70px; margin:5px; border:solid 1px #cacaca;" src="temp/'+queMED+'/PackagesTH_Encrypted/'+thumbnail+'">';
+                                rn++;
+                            }
+                        MesTimeline = MesTimeline + '</div>'; 
+                    }	
+                    
+                    MesTimeline = MesTimeline +  '<p style="color:#cacaca; font-size:10px; margin-left:50px; margin-top:5px;"> <span style="margin-right:15px;"><i style="font-size:10px; margin-right:5px;" class="icon-mail-reply"></i>Reply</span><span style="margin-right:15px;"><i style="font-size:10px; margin-right:5px;" class="icon-arrow-right"></i>Forward</span><span style="margin-right:15px;"><i style="font-size:10px; margin-right:5px;" class="icon-bookmark"></i>Mark</span></p>';
+                MesTimeline = MesTimeline + '</div>'; 
+                
+                
+            MesTimeline = MesTimeline + '</div>'; 
+            
+            n++;
+        }
+        
+        if (MesTimeline == '')
+        {
+            MesTimeline = '<div id="WaitTW" style="position:relative; top:80px; left:150px; height:40px; width:50px; visibility:visible;"><icon class="icon-check icon-3x " style="color:#22aeff;"></icon>  No new messages</div>';
+            $('#RCounter').html('      ');
+            $("#NewMES").css('width','300px');
+            $("#WaitTW").css('visibility','visible');
+        }
+        $('#NewMES').html(MesTimeline);
+        //$('#TextMES').html(MesTimeline);
+    
+            
+    }
+    GetTimeLine(0, 'doctor');
+    GetTimeLine(0, 'patient');
+    $('#NewsComm').live('click',function(){
+		GetTimeLine(toggleRead,'doctor');	
+	});
+     function HideTWWait()
+    {
+        $("#WaitTW").css('visibility','hidden');
+        //$("#WaitTW").hide();
+    
+        
+    }	
+    
+    $('#NewMES').live('click',function(){
+        /*
+        $("#WaitTW").css('visibility','visible');
+        alert ('ok');
+        $.when(GetTimeLine()).then(HideTWWait());
+        */
+        GetTimeLine(0,'doctor');	
+    });
+    
+    //$(".MessageItem").live('click',function() {
+    $(".RightZone").live('click',function() {
+         var myClass = $(this).attr("id");  //Message ID
+         var myClass2 = $(this).attr("id2");  // Patient ID
+         var myClass3 = $(this).attr("id3");  // Sender ID
+         //alert (myClass+' '+myClass2+' '+myClass3);
+         
+         var cadena='setMessageStatus.php?msgid='+myClass;
+         var RecTipo=LanzaAjax(cadena);
+         var WLink="patientdetailMED-new.php?IdUsu="+myClass2; 
+         window.location.href = WLink;
+    });
+    
+    $("#PatientMessagesButton").live('click',function(e) {
+        window.open('Messages.php','_self',false);
+        e.preventDefault();
+    });
+    $("#DoctorMessagesButton").live('click',function(e) {
+        window.open('Messages.php?isDoctors=1','_self',false);
+        e.preventDefault();
+    });
+</script>   
+           
+        
+         <!--Button User Start-->
+            <div class="btn-group pull-right" >
+            <a class="btn btn-profile dropdown-toggle" id="button-profile" data-toggle="dropdown" href="#">
+                <span class="name-user"><strong lang="en">Welcome</strong> Mr. JOHN OLOO <img src=""></span> 
+                	
+               
+                <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu" id="prof_dropdown" style="background-color:transparent; border:none; -webkit-box-shadow:none; box-shadow:none;">
+                <div class="item_m"><span class="caret"></span></div>
+                    <ul class="clear_ul" >
+                        <li>
+                            <a href="dashboard.php" lang="en">           
+                            <i class="icon-globe"></i> Home</a></li>
+                    
+                            <li><a href="medicalConfiguration.php" lang="en"><i class="icon-cog"></i> Settings</a></li>
+                            <li><a href="logout.php" lang="en"><i class="icon-off"></i> Sign Out</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--Button User END-->  
+          
+        </div>
+    </div>
+    <!-- END HEADER VIEW FOR MAIN TOOLBAR -->
+    
+    
+    <div id="content" style="padding-left:0px;">
+
+    <!-- Button trigger modal -->
+    <button id="LaunchModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display:none;" lang="en">Launch demo modal</button>
+     	    
+	 <!-- MAIN TOOLBAR -->
+     <div class="speedbar">
+        <div class="speedbar-content" style="position:relative;">
+            <ul class="menu-speedbar">
+                <li><a href="MainDashboard.html" class="act_link" lang="en">Home</a></li>
+              
+                 <li><a href="MainDashboard.php" lang="en">Configuration</a></li>
+                <li><a href="logout.php" style="color:yellow;" lang="en">Sign Out</a></li>
+            </ul>
+
+     
+        </div>
+    </div>
+    <!-- END MAIN TOOLBAR -->
+        
+    <style>
+            
+        div.H2MBox{
+            float:left; 
+            margin-left:30px; 
+        
+            height:400px; 
+            border:1px solid #b0b0b0; 
+            background-color:white;
+        }
+        div.H2MBox:hover 
+            .H2MTextFooter{
+                background-color:#e8e8e8;
+                color:black;       
+        }
+        div.H2MBox:hover 
+          .H2MTitleA{
+                color:black;       
+        }
+            
+        div.H2MTitle{
+           
+            height:20%; 
+            display:table;
+        }
+    
+        div.H2MTitleA{
+            padding:10px; 
+            font-size:30px; 
+            text-align:left; 
+            color:white; 
+            display:table-cell; 
+            vertical-align:middle;
+            padding-left:30px;
+            width:50%;    
+        }
+    
+            
+        div.H2MTitleB{
+            padding:10px; 
+            font-size:30px; 
+            text-align:right; 
+            color:white; 
+            display:table-cell; 
+            vertical-align:middle;
+        }
+    
+        div.H2MSet1{
+        
+            height:15%;
+            color:inherit;    
+        }
+        
+        div.H2MSet1A{
+            opacity:1.0; 
+            padding:10px; 
+            padding-top:20px; 
+            font-size:14px; 
+            text-align:left; 
+            color:inherit;
+            display:table-cell; 
+            vertical-align:middle;
+        }
+            
+        span.H2MBigNumber{
+            font-size:20px; 
+            margin-left:10px; 
+            margin-right:-10px;
+            color:inherit;
+            font-weight:bold;    
+        }
+            
+        div.H2MTextContent{
+            opacity:1.0; 
+            padding:10px; 
+            padding-top:20px; 
+            font-size:16px; 
+            text-align:left; 
+            color:grey; 
+            display:table-cell; 
+            vertical-align:middle;
+        }
+    
+        div.H2MFooter{
+            display:table; 
+          
+            height:20%; 
+        }
+    
+    
+        div.H2MTextFooter{
+            padding:10px; 
+            font-size:25px; 
+            font-style:italic; 
+            font-weight:bold;
+            text-align:center; 
+            color:grey; 
+            display:table-cell; 
+            vertical-align:middle;
+        }
+    </style>
+    <input type="hidden" id="Privilege" value="1">
+        
+   
+            </div>
+            <div style="float:left; width:300px; height:100%; ">
+                <style>
+                    div.H2MExBox{
+                   
+                        height:50px; 
+                        border:1px solid #cacaca; 
+                        border-radius:5px; 
+                        display:table;
+                        margin:10px;
+                        background-color: rgb(34,174,255);
+                        opacity: 0.1;
+                    }
+                    
+                    div.H2MInText{
+                        padding:0px; 
+                        font-size:16px; 
+                        text-align:left; 
+                        color:grey; 
+                        display:table-cell; 
+                        vertical-align:middle;
+                        padding-left:30px;
+               
+                          
+                        }
+                    
+                    div.H2MTray{
+                        width:300px; 
+                        height:50px; 
+                        border:1px solid #cacaca; 
+                        border-radius:5px; 
+                        display:table;
+                        margin:0px;
+                        background-color: #F8F8F8;
+                     }
+                    
+                    div.H2MTSCont{
+                        width:300px;
+                        overflow:hidden;
+                    }
+                    
+                    div.H2MTrayScroll{
+                        width:1000px;
+                    }    
+                    
+                    tr.MsgRow:hover {
+                        background-color: #f4f4f4;
+                        border: 3px solid #cacaca;
+                    }	         
+                    
+                    td.RightZone:hover {
+                        background-color: black;
+                        border: 1px solid black;
+                        cursor:pointer;
+                    }	     
+                    tbody.rActivity {
+                        max-height: 495px;
+                        overflow: auto;
+                        display:inline-block;
+                    }
+                    
+                </style>
+           
+        </div>
+        <style>
+            .myPsClass {
+                font-size:14px;
+                color:blue;
+            }
+            .myPsClass:active {
+                font-size:14px;
+                color:green;
+            }
+            .myPsClass:hover {
+                font-size:14px;
+                color:grey;
+            }
+        </style>
+             
+   
+        
+    </div>
+            <div id="toolbar">
+                <h1 style="width:100%;position:center"><i style="color:#275dbd";>Welcome To "NaturePlex WareHouse Management System"</i></h1>
+                <h3 style="margin-left:50%";><i style="color:#275dbd">(N.W.M.S)</i></h3>
+            </div>
+            <br>
+             <div class="pull-left">
+                        <h2 style="font-size:35px; margin-left:150px;color:red;margin-bottom:100px;"><i><em>PROCUREMENT AND SOURCING DEPARTMENT</em></i></h2>
+            </div>
+            <br><br>
+                  <div id="toolbar-1">
+					<center>
+						<table style="margin-top: -5px;border: 1px black;border-radius:10px;">
+						<tr>
+							<td >
+                                <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+
+							    <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Finished Merchandise</center></a>
+                                
+                                </div>
+							</td>
+			 
+							<td>
+                                <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+
+                                    <a href= "rec_dept.html" ><center style="color:white; font-size:22px; padding-top:50px;">Received/Inbound Merchandise</center></a>
+                                    
+                                </div>
+							
+							</td>
+			
+							<td>
+                                <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                    
+                                    <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Goods On Q.C Hold</center></a>
+                                    
+                                </div>
+							
+							</td>
+                            <td>
+                                <div id="dropzone" style="background:#3333FF; height:150px; width:250px;border-radius:10px;">
+								
+                                    <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Returned Goods</center></a>
+                                    
+                                </div>
+							
+							</td>
+						</tr>
+                            <tr>
+							<td>
+                                <div id="dropzone" style="background: #3333FF; height:150px; width:250px;border-radius:10px;">
+								
+							    <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Material Requirement Planning</center></a>
+                                    
+                                </div>
+							</td>
+			 
+							<td>
+                                 <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Product B.O.M</center></a>
+                                     
+                                </div>
+							
+							</td>
+			
+							<td>
+                                 <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Waste Goods</center></a>
+                                     
+                                </div>
+							
+							</td>
+                            <td>
+                                 <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Material Vendor</center></a>
+                                     
+                                </div>
+							
+							</td>
+						</tr>
+                            <tr>
+							<td>
+                                 <div id="dropzone" style="background:#3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Raw Materials/Components</center></a>
+                                </div>
+							</td>
+			 
+							<td>
+                                 <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Scanner Simulation</center></a>
+                                </div>
+							
+							</td>
+			
+							<td>
+                                 <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;"><i class="icon-picture icon-2x" style="color:white;"></i>Misc.</center></a>
+                                </div>
+							
+							</td>
+                            <td>
+                                 <div id="dropzone" style="background:#3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Other</center></a>
+                                </div>
+							
+							</td>
+						</tr>
+                           
+						</tr>
+                        </table>
+                      </center>
+                        <br><br>
+                        <div id ="toolbar-2">
+                            <center>
+                           <table style="margin-top:-5px; ">
+                            <tr>
+							<td>
+                                 <div id="dropzone" style="background: #FF5050; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">On Demand Products</center></a>
+                                </div>
+							</td>
+			 
+							<td>
+                                 <div id="dropzone" style="background: #3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Procurement And Sourcing</center></a>
+                                     
+                                </div>
+							
+							</td>
+			
+							<td>
+                                 <div id="dropzone" style="background: #00CC00; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Warehouse Management</center></a>
+                                    
+                                </div>
+							
+							</td>
+                            <td>
+                                 <div id="dropzone" style="background: #669999; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                     <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Order Fullfillment</center></a>
+                                     
+                                </div>
+							
+							</td>
+                                 <td>
+                                      <div id="dropzone" style="background: #CC3300; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                          <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Transportation Management</center></a>
+                                          
+                                     </div>
+							
+							</td> 
+                                <td>
+                                     <div id="dropzone" style="background:#3333FF; height:150px; width:250px;margin-top:0px;border-radius:10px;">
+                                         <a href= "#" ><center style="color:white; font-size:22px; padding-top:50px;">Logistics Optimization</center></a>
+                                    </div>
+                                         
+							
+							</td>
+						</tr>
+		
+					</table>
+                 </center>
+             </div>
+         </div>                     
+    </div>
+
+   
+         
+   
+
+<span style="color:grey; font-size:14px; margin:20px;"><center>&copyCopyright 2015 NaturePlex LLC.  is a property of NaturePlex LLC. All Rights Reserved. <a href="legal/tos.html" tabindex="7" target="_blank">Terms of Service</a> | <a href="legal/privacy.html" tabindex="9" target="_blank">Privacy Policy</a></center></span>	
+
+
+         
+
+
+</div>
+<!-- END MAIN GRID -->
+</div>
+<audio>
+    <source id="Beep24" src="sound/beep-24.mp3"></source>
+</audio>
+<!-- END MAIN CONTENT -->
+
+
+
+
+
+
+
+<!-- JAVASCRIPT -->
+<script src="TypeWatch/jquery.typewatch.js"></script>
+<link href="realtime-notifications/lib/gritter/css/jquery.gritter.css"rel="stylesheet" type="text/css" />
+<script src="realtime-notifications/lib/gritter/js/jquery.gritter.min.js"></script>
+<!--<script src="realtime-notifications/pusher.min.js"></script>
+<script src="realtime-notifications/PusherNotifier.js"></script>-->
+<script src="js/socket.io-1.3.5.js"></script>
+<script src="push/push_client.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-colorpicker.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/chosen.jquery.min.js"></script>
+<script src="js/autoresize.jquery.min.js"></script>
+<script src="js/jquery.tagsinput.min.js"></script>
+<script src="js/jquery.autotab.js"></script>
+<script src="js/elfinder/js/elfinder.min.js" charset="utf-8"></script>
+<script src="js/tiny_mce/tiny_mce.js"></script>
+<script src="js/validation/jquery.validationEngine.js" charset="utf-8"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/jquery.jscrollpane.min.js"></script>
+<script src="js/jquery.stepy.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/justgage.1.0.1.min.js"></script>
+<script src="js/glisse.js"></script>
+<script src="js/jquery.timepicker.js"></script>
+<script src="js/jquery.flot.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/moment-with-locales.js"></script>
+
+<script type="text/javascript" src="js/h2m_maindashboard.js"></script>
+<script type="text/javascript" src="js/h2m_notifications.js"></script>
+
+
+    
+</body>
+</html>

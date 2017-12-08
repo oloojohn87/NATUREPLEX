@@ -1,0 +1,438 @@
+
+<?php
+session_start();
+if(isset($_SESSION['Acceso']))
+    unset($_SESSION['Acceso']); 
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="en"  class="body-error"><head>
+    <meta charset="utf-8">
+    <title>NaturePlex - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+   <link href="css/login.css" rel="stylesheet">
+    <?php
+        if ($_COOKIE["inmers_hti"]=="col") {
+    ?>
+        <link href="css/loginCol.css" rel="stylesheet">
+    <? } ?>
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+	<!--<link rel="stylesheet" href="css/icon/font-awesome.css">-->
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+	<link rel="stylesheet" type="text/css" href="css/tooltipster.css" />
+    <link rel="stylesheet" href="build/css/intlTelInput.css">
+
+
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37863944-1']);
+  _gaq.push(['_setDomainName', 'health2.me']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+ 
+</script>
+
+<script type="text/javascript" src="js/zopimchat.js"></script>
+<!--Start of Zopim Live Chat Script-->
+<script type="text/javascript">
+/*window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+$.src='//v2.zopim.com/?2MtPbkSnwlPlIVIVYQMfPNXnx6bGJ0Rj';z.t=+new Date;$.
+type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');*/
+</script>
+<!--End of Zopim Live Chat Script-->  
+    
+    
+  </head>
+
+  <body>
+	<input type="hidden" name="uid"/>
+	<input type="hidden" name="pass"/>
+     	  <!--- VENTANA MODAL  ---> 
+   	  <!--<button id="BotonModal" data-target="#header-modal" data-toggle="modal" class="btn btn-warning" style="display: none;">Modal with Header</button>-->
+      <div id="error_bar" style="position: relative;width:100%;height:53px;color:white;background-color: rgb(232, 58, 60);display:none"><div id="error_msg" style="position: absolute;margin-top:15px;margin-left:440px ">the error message</div>
+        <div id="close_error_bar" style="margin-left:1200px;">
+            <i class="icon-remove-circle icon-4x"></i>
+       </div></div>
+   	  <div id="header-modal" class="modal hide" style="display: none; height:320px;" aria-hidden="true">
+ <button id="BotonMod" data-target="#header-modal" data-toggle="modal" class="btn" style="float:right; margin-right:10px; display:none;"><i class="icon-indent-left"></i>New</button>
+
+         <div class="modal-header">
+             <button class="close" type="button" data-dismiss="modal">×</button>
+                 <h4>New Patient Account</h3>
+         </div>
+         
+         <div class="modal-body" id="ContenidoModal" style="height:170px;">
+           <p>
+           You will receive an email with a confirmation link at the email address you indicated. Please follow the link to verify your identity and complete the sign up process. 
+           </p>
+            <p>
+           Your email: <span id="IDRESERV" class="label label-success" style="margin-right:200px; float:right; font-size:14px; padding:5px 10px 5px 10px; font-family: “Andale Mono”, AndaleMono, monospace; background-color:#22AEFF;;" title="Your email, valid for signin purposes"></span>
+           <p><p>
+           Your Number id: <span id="VIdUsFIXED2" class="label label-success" style="margin-right:200px; float:right; font-size:14px; padding:5px 10px 5px 10px; font-family: “Andale Mono”, AndaleMono, monospace;" title="This will be the first part of your flexible identification tag"></span>
+           <p>
+           <p>
+           Your Name id: <span id="VIdUsFIXEDNAME2" class="label label-success" style=" margin-right:200px; float:right; font-size:14px; padding:5px 10px 5px 10px; font-family: “Andale Mono”, AndaleMono, monospace;"  title="This will be the second part of your flexible identification tag"></span>
+           </p>
+           <p>
+           Please use your Name id for sign in purposes.
+           </p>
+           
+         </div>
+         <input type="hidden" id="queId">
+        
+         <div class="modal-footer">
+	         <!--<input type="button" class="btn btn-success" value="Confirm" id="ConfirmaLink">--->
+             <a href="#" class="btn btn-success" data-dismiss="modal" id="GrabaDatos">Proceed</a>
+             <a href="#" class="btn btn-primary" data-dismiss="modal" id="CloseModal">Cancel</a>
+         </div>
+      </div>  
+	  <!--- VENTANA MODAL  ---> 
+      
+      <!--- VENTANA MODAL  2 ---> 
+   	  <!--<button id="BotonModal" data-target="#header-modal" data-toggle="modal" class="btn btn-warning" style="display: none;">Modal with Header</button>-->
+   	  <div id="header-modal2" class="modal hide" style="display: none; height:385px;" aria-hidden="true">
+        <button id="BotonMod2" data-target="#header-modal2" data-toggle="modal" class="btn" style="float:right; margin-right:10px; display:none;"><i class="icon-indent-left"></i>New</button>
+
+         <div class="modal-header">
+             <button class="close" type="button" data-dismiss="modal">×</button>
+			
+                 <h4 id = "showlogo" class="logo-small"></h4>
+			
+                 <div style="text-align:center;">
+                    <span class="label label-success" style="font-size:14px;">RESET PASSWORD</span>
+                 </div>
+         </div>
+        
+                  
+         <div class="modal-body"  style="height:170px;">
+              <div class="MsgStatus2" style="height:0px; -webkit-border-radius: 3px; border-radius: 3px; margin-bottom:20px; background-color: #3498db;">                   
+             </div>
+             
+             <div id="ContenidoModal2"></div>
+            
+         </div>
+         <input type="hidden" id="queId">
+        
+         <div class="modal-footer">
+	         <!--<input type="button" class="btn btn-success" value="Confirm" id="ConfirmaLink">
+             <a href="#" class="btn btn-success" data-dismiss="modal" id="GrabaDatos">Proceed</a>--->
+             <input type="button" class="btn btn-success" value="Proceed" id="Proceed">
+             <a href="#" class="btn btn-success" data-dismiss="modal" id="CloseModal2">OK</a>
+         </div>
+      </div>  
+	  <!--- VENTANA MODAL 2 ---> 
+
+    
+    <div id="container_demo" >
+        <a class="hiddenanchor" id="toregister"></a>
+        <a class="hiddenanchor" id="toplan"></a>
+        <a class="hiddenanchor" id="tologin"></a>
+        <div id="wrapper_user" style="top:50px;">
+            <div id="login_user" class="animate form position">
+           <form id="FormLOGIN" method="post" action="loginUSER.php" class="form-login" > 
+              
+               <div class="content-login">
+                   
+                            <img src="images/footer-logo-3.png" width="300" style="align:center;margin-left:10%";>
+                              <br><br>
+                            <div style="text-align:center;">
+                            <span class="label label-success" style="font-size:18px; text-align:center; margin:auto;">EMPLOYEE ACCESS</span>
+                            </div>
+                   
+                    <div id ="inputs" class="inputs" style="margin-top: 13px;">
+                        
+                     	
+                        <!--<i class="icon-user first-icon"></i>--><input id="Nombre" name="Nombre" type="text" class="first-input" placeholder="Username or Email"  />
+                        <div class="clear"></div>
+                        <!--<i class="icon-key"></i>--><input id="loginPass" name="Password" type="password" class="last-input" placeholder="password" />
+                    </div>
+                    
+                    <div class="remember">
+                    	<input type="checkbox" id="c2" name="cc" checked="checked" />
+            			<label for="c2"><span></span> Remember Me</label>
+                    </div>
+                    <div id="ForgotPassword" class="link"><a href="#">Forgot Password?</a></div>
+                    <div class="clear"></div>
+                    <!--<style>
+                            .submit_button_patient{
+                                width: 100%;
+                                height: 35px;
+                                border: 0px solid #FFF;
+                                outline: 0px;
+                                border-radius: 5px;
+                                color: #FFF;
+                                background-color: #54bc00;
+                            }
+                    </style>
+                    <!--<div class="button-login"><input  id = "SignIn" type="submit"  class="btn btn-large" value="Sign In"/></div>-->         
+                    <div id="SignIn" style="margin: auto;margin-top:10px;cursor: pointer" class="submit_button_patient">
+                            <div style="padding-top:7px;margin-left:165px">Sign In<div id="spin-icon" style="display:none;float:right;margin-right:10px;margin-top:-3px"><i class="icon-spinner icon-spin icon-2x"></i></div></div>
+                            
+                            
+                    </div>
+                    </div>
+                    
+                    <div class="footer-login">
+                     <div class="pull-left ">Don't have an account?</div>
+                     <div class="pull-right"><a href="#toplan" class="to_register">Create Account</a></div>
+                     <div class="clear"></div>
+                    </div>
+                   
+                </form>
+                
+                <div class="info-message">
+                    <div class="alert alert-info">        
+                    To create a new account, click "Create Account"
+                    </div>
+                </div>
+              
+            </div>
+            
+         
+     
+            <div id="register_user" class="animate form position">
+                <form  method="post" id="FormSU" action="AddUserPac.php" class="form-login"> 
+                    <div class="content-login">
+                    <a href="#" class="logo"></a>
+                    <span id="estaLabel" class="label label-success" style="font-size:18px; margin-left:89px;">MEMBER ACCOUNT</span>
+                    <input id="ValorGlobal" type="hidden" value="-1" />
+                    <input id="CreditCardToken" name="CreditCardToken" type="hidden" value="" />
+                    <input id="PlanValue" name="PlanValue" type="hidden" value="" />
+                    <div class="inputs">
+                         	
+                     	<div class="clear" style="margin-bottom:10px"></div>
+                     	<!--<div class="MsgAlarma2" style="height:0px; -webkit-border-radius: 3px; border-radius: 3px; margin-bottom:20px; background-color: rgb(232, 58, 60);">
+                     	<!-- -webkit-border-radius: 3px; border-radius: 3px; margin-bottom:20px; background-color:grey;  -->
+                     	<!--</div>-->
+                     	
+                     	<input type="hidden" value="" id="VIdUsFIXEDINSERT" Name="VIdUsFIXED">
+                     	<input type="hidden" value="" id="VIdUsFIXEDNAMEINSERT" Name="VIdUsFIXEDNAME">
+                     	<div class="clear"></div> 
+                     	</br>
+	                    <i class="icon-calendar first-icon"></i><input id="Year" name="Year" type="text" class="first-input" placeholder="Year of Birth" style="width:100px; border-bottom-right-radius:3px; border-bottom-left-radius:3px;" title="Please insert your year of birth" />
+	                    <i class="icon-calendar first-icon" style="left:165px; margin-top:-35px;"></i><input id="Month" name="Month" type="text" class="first-input" placeholder="Month" style="width:50px; border-bottom-right-radius:3px; border-bottom-left-radius:3px;" title="Please insert your month of birth"/>
+	                    <i class="icon-calendar first-icon" style="left:260px; margin-top:-35px;"></i><input id="Day" name="Day" type="text" class="first-input" placeholder="Day" style="width:50px; border-bottom-right-radius:3px; border-bottom-left-radius:3px;" title="Please insert your day of birth" />
+	                    <div class="clear"></div>
+                        
+
+	                    <i class="icon-group first-icon"></i>
+	                    <input name="G" type="text" class="first-input" placeholder="" style="width:7px;" readonly/>
+	                    <select id="Gender" name="Gender" style="width:150px;" title="Please insert your gender">
+		                    <option value="">Select Gender:</option>
+		                    <option value="0">Female</option>
+		                    <option value="1">Male</option>
+		                </select>
+	                    
+	                
+ 	                    
+ 	                    <!--style="border:solid; opacity:100;"-->
+ 	                    <!--
+ 	                    <div class="tooltip" title="Order of birth: leave 0 if not part of a multiple birth, otherwise indicate your orther of birth"> 
+	                     		<p>This div has a d</p>
+	                    </div>
+	                    -->
+ 	                    <i class="icon-info-sign first-icon" style="left:235px; margin-top:-35px;"></i><input id="OrderOB" name="OrderOB" type="text" class="first-input"  title="Order of birth (leave 0 if not part of a multiple birth)" placeholder="Order" style="width:40px; margin-left:10px; border-bottom-right-radius:3px; border-bottom-left-radius:3px;" />
+ 	                    <div class="clear"></div>
+ 	           
+                        </br>
+                        
+                        <span id="estaLabel2" class="label label-success" style="font-size:14px; margin-bottom:20px;" >Text Id</span>
+                     	<span id="VIdUsFIXEDNAME" class="label label-success" style="float:right; font-size:12px; padding:5px 10px 5px 10px; font-family: “Andale Mono”, AndaleMono, monospace;"  title="This will be the second part of your flexible identification tag"></span>
+                     	
+                     	<div class="clear"></div>
+                     	</br>
+ 
+                        <i class="icon-user first-icon"></i><input id="Vname" name="Vname" type="text" class="first-input" placeholder="Name" style="width:120px; border-bottom-right-radius:3px; border-bottom-left-radius:3px;" title="Please insert your name (one word only, no signs or special characters)"/>
+                        <i class="icon-user first-icon" style="left:185px; margin-top:-35px;"></i><input id="Vsurname"  name="Vsurname" type="text" class="first-input" placeholder="Surname" style="width:120px; border-bottom-right-radius:3px; border-bottom-left-radius:3px;" title="Please insert your surname (one word only, no signs or special characters, no middle initial)"/>
+                        <div class="clear"></div>
+                        </br>
+                        
+                        <span class="label label-success" style="font-size:14px; margin-bottom:20px;">Security & Privacy</span>
+                     	<img src="images/load/4.gif" alt="" style="margin-left:50px; " id="Wait1">
+                        <div class="clear"></div>
+                     	</br>
+                        <i class="icon-key" style="margin-top:10px"></i><input id="XPassword" name="Password" type="password" class="first-input" placeholder="password" title="Please insert your password (at least 8 characters, use numbers and letters, no punctuation signs or other characters)"/>
+                        <div class="clear"></div>
+                        <i class="icon-key"></i><input id="XPassword2" name="Password2" type="password" class="intermediate-input" placeholder="repeat password" title="Please repeat your password (at least 8 characters, use numbers and letters, no punctuation signs or other characters)"/>
+                        <div class="clear" style="margin-bottom:-10px"></div>
+                        <!--<i class="icon-phone"></i>--><input id="phone" type="text" name="phone" class="intermediate-input" placeholder="phone" title="Please insert your phone number (just numbers, no special characters or punctuation signs)" style="width:358px;height:32px;margin-top:-30px"/>
+                        <!--<input id="phone" type="tel" class="intermediate-input" placeholder="e.g. +1 702 123 4567"/>-->
+                        <div class="clear" style="margin-top: 9px;"></div>
+                        <!--<div class="clear"></div>-->
+                        <i class="icon-envelope-alt"></i><input id="email" name="email" type="text" class="last-input" placeholder="email" title="Please insert your email" />
+						<div class="clear"></div>
+                        <!--<i class="icon-key"></i><input id="accesscode" name="code" type="password" class="last-input" placeholder="Access Code" title="Please Enter the Access Code provided by Health2Me" />-->
+                        <div id="billing_section">
+                            <br/>
+                            <span class="label label-success" style="font-size:14px; margin-bottom:20px;">Billing</span>
+                            <div class="clear"></div>
+                            <br/>
+                            <i class="icon-credit-card" style="margin-top:10px"></i><input id="credit_card_number" name="credit_card_number" type="text" class="first-input" placeholder="Credit Card Number" title="Please insert your credit card number" style="box-shadow:inset 0 0 0px #FFF;"/>
+                            <div class="clear" style="margin-bottom:-10px"></div>
+                            <i class="icon-lock" style="margin-top:10px"></i><input id="credit_card_cvc" style="border-radius: 0px;" name="credit_card_cvc" type="text" class="first-input" placeholder="CVC Code" title="Please insert your credit card's CVC code" style="box-shadow:inset 0 0 0px #FFF;" />
+                            <div class="clear" style="margin-bottom:-10px"></div>
+                            <div style="color: #969696; width: 106px; padding-left: 32px; float: left; text-align: left; border-bottom-left-radius: 3px; border: 1px solid #CACACA; border-right: 0px solid #CACACA; height: 23px; padding-top: 5px; border-right: 0px solid #FFF; box-shadow:inset 0 0 0px #FFF; " lang="en"><i class="icon-calendar" style="margin-left: -24px; margin-top: 2px;"></i>Exp. Date:</div>
+                            <input id="credit_card_exp_date" name="credit_card_exp_date" type="month" class="first-input" title="Please insert the expiration date of your credit card" style="border-radius: 0px; border-bottom-right-radius: 3px; border-left: 0px solid #CACACA; outline: 0px; box-shadow:inset 0 0 0px #FFF;"/>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div style="margin-top:9px"> <div style="width:9%;float:left"><input type="checkbox" id="checkcol_terms" name="cc"/><label style="margin-top:0px;" for="checkcol_terms"><span></span></label> </div><div style="width:91%;float:left"><p>By clicking the button, you agree to the <a href="/legal/tos.html" tabindex="7" target="_blank">terms of service</a> and <a href="/legal/privacy.html" tabindex="9" target="_blank">privacy policy</a></p>
+                    </div></div>
+                    <!--<div class="button-login"><input id="BotonEnviaF" type="button"  class="btn btn-large" style="width:100%;" value="Create Account"></div>-->
+                     <div style="margin: auto;margin-top:62px;cursor: pointer" class="submit_button_patient">
+                            <div id="BotonEnviaF" style="padding-top:7px;margin-left:134px">Create Account</div>
+                            
+                    </div>
+                    
+                    
+                    
+                    </div>
+                    
+                    <div class="footer-login">
+                     <div class="pull-left ">Want login?</div>
+                     <div class="pull-right"><a href="#tologin" class="to_register">Sign In</a></div>
+                     <div class="clear"></div>
+                    </div>
+                </form>
+            </div>
+             
+        </div>
+    </div>  
+    
+   <script type="text/javascript">
+     var $_GET = {};
+
+document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+    function decode(s) {
+        return decodeURIComponent(s.split("+").join(" "));
+    }
+
+    $_GET[decode(arguments[1])] = decode(arguments[2]);
+});
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+function setCookie(name,value,days) {
+//confirm('Would you like to switch languages?');
+delete_cookie('inmers_hti');
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+	
+	//pageRefresh();
+}
+
+
+if($_GET['access'] == 'hti'){
+setCookie('inmers_hti', 'col', 30);
+}
+if($_GET['access'] == 'riva'){
+//alert('riva');
+}
+    </script>
+     
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+
+    <script src="js/jquery-ui.min.js"></script>
+   
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/bootstrap-colorpicker.js"></script>
+    <script src="js/google-code-prettify/prettify.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/jquery.flot.min.js"></script>
+    <script src="js/jquery.flot.pie.js"></script>
+    <script src="js/jquery.flot.orderBars.js"></script>
+    <script src="js/jquery.flot.resize.js"></script>
+    <script src="js/graphtable.js"></script>
+    <script src="js/fullcalendar.min.js"></script>
+    <script src="js/chosen.jquery.min.js"></script>
+    <script src="js/autoresize.jquery.min.js"></script>
+    <script src="js/jquery.tagsinput.min.js"></script>
+    <script src="js/jquery.autotab.js"></script>
+    <script src="js/elfinder/js/elfinder.min.js" charset="utf-8"></script>
+	<script src="js/tiny_mce/tiny_mce.js"></script>
+    <script src="js/validation/languages/jquery.validationEngine-en.js" charset="utf-8"></script>
+	<script src="js/validation/jquery.validationEngine.js" charset="utf-8"></script>
+    <script src="js/jquery.jgrowl_minimized.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
+    <script src="js/jquery.jscrollpane.min.js"></script>
+    <script src="js/jquery.stepy.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/raphael.2.1.0.min.js"></script>
+    <script src="js/justgage.1.0.1.min.js"></script>
+	<script src="js/glisse.js"></script>
+    
+	<script src="js/application.js"></script>
+
+    <script src="build/js/intlTelInput.js"></script>
+    <script src="js/isValidNumber.js"></script>
+
+<!--    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>-->
+    <script type="text/javascript" src="js/jquery.tooltipster.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="js/signIn.min.js"></script>
+   <script type="text/javascript">
+	$( document ).ready(function() {
+	
+	if($_GET['access'] == 'riva'){
+		setCookie('inmers_hti', 'riva', 30);
+		$('link[rel=stylesheet][href="css/loginCol.css"]').remove();
+		$('head').append('<link rel="stylesheet" type="text/css" href="css/loginRiva.css">');
+		$(".to_register").attr("href", "http://www.rivacare.com");
+	}else if($_GET['access'] == '24x7'){
+		setCookie('inmers_hti', '24X7', 30);
+		$('#image_holder').css('background-image', 'url(http://24x7hellodoctor.com/img/logo-24x7-hellodoctor.jpg)');
+		$('#image_holder').css('background-size', '250px');
+		$('#image_holder').css('width', '250px');
+		$('#image_holder').css('height', '90px');
+		$('#image_holder').css('background-repeat', 'no-repeat');
+		$('#image_holder').css('margin-bottom', '20px');	
+	}
+
+	if($_GET['access'] == 'riva' || $_GET['access'] == 'hti' || $_GET['access'] == '24x7'){
+		$('.footer-login').css('display', 'none');
+		$('.info-message').css('display', 'none');
+		$('#SignIn').css('margin-bottom', '20px');
+	}
+		});
+	</script>
+  </body>
+</html>
+

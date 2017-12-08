@@ -1,0 +1,26 @@
+{
+    "isDev": true,
+    "logLevel": null,
+    "server": {
+        "port": 8888,
+        "secure": true, /* whether this connects via https */
+        "key": '/etc/ssl/key/comodokey.key',
+        "cert": '/etc/ssl/key/comodocrt.crt',
+        "ca": ['/etc/ssl/key/ca1.crt', '/etc/ssl/key/ca2.crt']
+    },
+    "stunservers" : [
+        {"url": "stun:stun.l.google.com:19302"}
+    ],
+    "turnservers" : [
+        
+        { "url": "turn:ITGroup@54.225.226.163:3478?transport=tcp",
+          "secret": "a0e828972364d59b03024eb38837fb86",
+          "expiry": 86400 
+        },
+        { "url": "turn:ITGroup@54.225.226.163:3478?transport=udp",
+          "secret": "a0e828972364d59b03024eb38837fb86",
+          "expiry": 86400 
+        }
+          
+    ]
+}

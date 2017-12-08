@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="640" height="640">
+    <desc iVinci="yes" version="4.2" gridStep="20" showGrid="no" snapToGrid="no" codePlatform="0"/>
+    <g id="Layer1">
+        <g id="Shape1">
+            <desc type="0" basicInfo-basicType="0" basicInfo-roundedRectRadius="12" basicInfo-polygonSides="6" basicInfo-starPoints="5" bounding="rect(0,0,0,0)" text="" font-familyName="" font-pixelSize="20" font-bold="0" font-underline="0" font-alignment="1" strokeStyle="0" markerStart="0" markerEnd="0" shadowEnabled="0" shadowOffsetX="0" shadowOffsetY="2" shadowBlur="4" shadowOpacity="160" blurEnabled="0" blurRadius="4" transform="matrix(1,0,0,1,328.8,0)" pers-center="0,0" pers-size="0,0" pers-start="0,0" pers-end="0,0" locked="0" mesh="" flag="Trace_5"/>
+            <path id="shapePath1" d="M0,0 Z" style="stroke:none;fill-rule:evenodd;fill:#000000;fill-opacity:0;"/>
+        </g>
+        <g id="Shape2">
+            <desc type="0" basicInfo-basicType="0" basicInfo-roundedRectRadius="12" basicInfo-polygonSides="6" basicInfo-starPoints="5" bounding="rect(-120.013,-120.221,240.027,240.442)" text="" font-familyName="" font-pixelSize="20" font-bold="0" font-underline="0" font-alignment="1" strokeStyle="0" markerStart="0" markerEnd="0" shadowEnabled="0" shadowOffsetX="0" shadowOffsetY="2" shadowBlur="4" shadowOpacity="160" blurEnabled="0" blurRadius="4" transform="matrix(2.66406,0,0,2.66406,319.723,320.277)" pers-center="0,0" pers-size="0,0" pers-start="0,0" pers-end="0,0" locked="0" mesh="" flag="Trace_5"/>
+            <path id="shapePath2" d="M1.30359,288.374 C14.9215,119.848 174.675,-14.2096 343.653,1.20917 C493.745,10.0887 624.303,135.555 637.139,285.542 C640.229,304.034 639.425,322.846 639.128,341.505 C631.217,513.901 470.817,653.299 298.38,639.626 C146.751,631.437 16.1316,506.789 2.45239,354.829 C-1.25854,332.91 0.00714111,310.472 1.30359,288.374 M211.762,165.848 C210.461,171.133 210.993,176.465 212.077,181.705 C214.089,185.334 215.792,189.026 218.707,192.089 L345.378,319.917 L344.545,322.846 L218.678,448.226 C216.438,451.772 213.496,454.736 211.952,458.744 C210.291,464.026 211.064,469.469 212.078,474.753 C227.522,496.961 248.794,515.458 269.032,533.479 C272.528,534.467 276.079,535.546 279.722,535.746 C287.564,535.344 294.007,531.182 300.282,526.931 L486.472,340.741 C488.554,337.376 490.67,334.129 493.128,330.903 C496.063,323.201 495.62,314.735 491.688,307.451 L298.41,112.349 C293.458,109.203 288.707,104.84 282.374,104.945 C278.737,104.236 275.289,105.877 271.704,106.031 C267.012,107.857 264.045,111.708 259.194,113.447 C244.064,131.473 223.864,144.415 211.762,165.848 " style="stroke:none;fill-rule:evenodd;fill:#000000;fill-opacity:1;"/>
+        </g>
+    </g>
+</svg>

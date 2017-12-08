@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "h2mfonticons";
+  src:url("fonts/h2mfonticons.eot");
+  src:url("fonts/h2mfonticons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/h2mfonticons.woff") format("woff"),
+    url("fonts/h2mfonticons.ttf") format("truetype"),
+    url("fonts/h2mfonticons.svg#h2mfonticons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "h2mfonticons" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "h2mfonticons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cardiovascular:before {
+  content: "b";
+}
+.icon-digestive:before {
+  content: "a";
+}
+.icon-obgyn:before {
+  content: "g";
+}
+.icon-oncology:before {
+  content: "h";
+}
+.icon-ophtalmology:before {
+  content: "i";
+}
+.icon-respiratory:before {
+  content: "j";
+}
+.icon-trauma:before {
+  content: "k";
+}
+.icon-unespecified:before {
+  content: "l";
+}
+.icon-immuno:before {
+  content: "e";
+}
+.icon-neuro:before {
+  content: "f";
+}
+.icon-infectious:before {
+  content: "m";
+}
+.icon-otology:before {
+  content: "o";
+}
+.icon-derma:before {
+  content: "n";
+}
+.icon-musculo:before {
+  content: "q";
+}
+.icon-genito:before {
+  content: "r";
+}
+.icon-congenital:before {
+  content: "s";
+}
+.icon-psiquiatry:before {
+  content: "c";
+}
+.icon-endocrine:before {
+  content: "d";
+}
+.icon-trauma:before {
+  content: "k";
+}

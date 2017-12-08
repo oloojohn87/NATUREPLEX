@@ -1,0 +1,18 @@
+.ui-menu{
+    background-color: #FFF;
+    overflow: hidden;
+}
+.ui-menu .ui-menu-item{
+    height: 25px;
+    color: #888;
+    background-color: #FFF;
+    border-radius: 0px;
+    border-bottom: 1px solid #FAFAFA;
+    width: 100%;
+}
+.ui-menu .ui-menu-item:hover{
+    height: 25px;
+}
+.ui-menu .ui-menu-item:last-child{
+    border-bottom-width: 0px;
+}

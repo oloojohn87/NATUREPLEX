@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.rawgit.com/konvajs/konva/0.8.0/konva.min.js"></script>
+  <script src="kinetic-v4.5.5.min.js"></script>
+    
+  <meta charset="utf-8">
+  <title>Konva Line Polygon Demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #F0F0F0;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    var stage = new Kinetic.Stage({
+      container: 'container',
+      width: width,
+      height: height
+    });
+    var layer = new Kinetic.Layer();
+    var poly = new Kinetic.Line({
+      points: [23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93],
+      fill: '#00D2FF',
+      stroke: 'black',
+      strokeWidth: 5,
+      closed : true
+    });
+    // add the shape to the layer
+    layer.add(poly);
+    // add the layer to the stage
+    stage.add(layer);
+  </script>
+</body>
+</html>

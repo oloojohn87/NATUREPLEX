@@ -1,0 +1,140 @@
+.recent_doctor_button{
+    height: 50px; 
+    width: 50px; 
+    margin: auto; 
+    color: #FFFFFF; 
+    background-color: #22AEFF;
+    outline: 0px;
+}
+.recent_doctor_button_selected{
+    border: 1px solid #22aeff;
+    background-color: #22aeff; 
+    color: #FFF;
+    padding: 3px; 
+    width: 80%; 
+    margin: auto; 
+    height: 25px;
+    outline: 0px;
+}
+.find_doctor_button
+{
+    width: 100px;
+    height: 30px;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #FFFFFF;
+    border: 0px solid #FFF;
+    float: right;
+    margin-top: 3px;
+    margin-left: 10px;
+    outline: 0px;
+}
+.square_blue_button
+{
+    width: 110px;
+    height: 110px;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #22aeff;
+    border: 0px solid #FFF;
+    outline: 0px;
+    margin-top: 55px;
+    margin-left: 15px;
+    margin-right: 15px;
+
+}
+.square_blue_button_disabled
+{
+    width: 110px;
+    height: 110px;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #FFFFFF;
+    border: 0px solid #FFF;
+    outline: 0px;
+    margin-top: 55px;
+    margin-left: 15px;
+    margin-right: 15px;
+    background-color: #D4F0FF;
+    cursor: default;
+}
+.step_circle
+{
+    background-color: #909090;
+    padding-top: 5px;
+    padding-left: 2px;
+    width: 28px;
+    height: 25px;
+    border: 1px solid #909090;
+    border-radius: 15px;
+    color: #FFFFFF;
+    font-weight: bold;
+    float: left;
+    font-size: 12px;
+    <!--margin-right: 10px;-->
+}
+.step_bar
+{
+    background-color: #909090;
+    margin-top: 14px;
+    width: 10px;
+    height: 3px;
+    border: 1px solid #909090;
+    float: left;
+}
+.lit
+{
+    background-color: #52D859;
+    border: 1px solid #52D859;
+}
+.yes_no_button{
+    width: 60px;
+    height: 40px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #22aeff;
+    border: 0px solid #FFF;
+    outline: 0px;
+    margin-top: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.days_button{
+    width: 47px;
+    height: 50px;
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #22AEFF;
+    border: 0px solid #FFF;
+    outline: 0px;
+    margin-top: 55px;
+    margin-right: 2px;
+    float: left;
+}
+.day_selected{
+    background-color: #1673A5;
+}
+.day_disabled{
+    cursor: default;
+    background-color: #B3E4FF;
+}
+.slots_button{
+    width: 125px;
+    height: 30px;
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #FF8C2C;
+    border: 0px solid #FFF;
+    outline: 0px;
+    margin-bottom: 2px;
+    float: right;
+}
+.slot_selected{
+    background-color: #AA5D1D;
+}
+.slot_disabled{
+    cursor: default;
+    background-color: #FFDABC;
+}
